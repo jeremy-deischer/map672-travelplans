@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset=utf-8 />
+  <title>2018 Travel Plans</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.2/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Poppins:300" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: whitesmoke;
+      font-family: "Poppins", sans-serif;
+      color: #3d3d3d;
+    }
+
+    section {
+      width: 960px;
+      margin: 20px auto;
+    }
+
+    h1 {
+      font-family: "Abril Fatface", serif;
+      letter-spacing: .04em;
+    }
+
+    h2 {
+      font-family: "Abril Fatface", serif;
+      letter-spacing: .04em;
+    }
+
+    p {
+      font-size: 1em;
+      line-height: 1.5em;
+    }
+
+    a {
+      color: #005daa;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 10px 0;
+      font-size: 0.9em;
+      letter-spacing: 0.02em;
+    }
+
+    .bio {
+      color: #726E6D;
+      font-size: 0.9em;
+      margin-top: 18px;
+    }
+
+    .column {
+      float: left;
+      width: 47%;
+      margin-right: 1%;
+      padding-left: 12px;
+      background: white;
+      color: #333333;
+      display: block;
+    }
+
+    .column img {
+      width: 90%;
+    }
+    .clear {
+      clear: both;
+    }
+
+    #map {
+      width: 960px;
+      height: 540px;
+      margin: 10px auto;
+      border: 2px solid #d3d3d3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section>
+    <h1>2018 Travel Plans</h1>
+
+    <div id='map'></div>
+
+    <h2>More information on my travel plans for 2018</h2>
+    <!-- First column of text -->
+    <div class="column">
+      <h3>
+        <a href="https://en.wikipedia.org/wiki/Phoenix,_Arizona" target=_blank>Phoenix, AZ</a>
+      </h3>
+      <ul>
+        <li>Reason for travel: Spring Training.</li>
+        <li>Distance traveled: ~1,700 miles (car).</li>
+        <li>Length of stay: 5 days</li>
+      </ul>
+      <img src="http://www.cardsblog.com/wp-content/uploads/2017/02/USATSI_9199872.jpg">
+      <h3>
+        <a href="https://en.wikipedia.org/wiki/Rutherford,_Tennessee" target=_blank>Rutherford, TN</a>
+      </h3>
+      <ul>
+        <li>Reason for travel: Family funeral.</li>
+        <li>Distance traveled: ~2,100 miles (car)</li>
+        <li>Length of stay: 3 days</li>
+      </ul>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Rutherford_county_courthouse_9736.JPG/800px-Rutherford_county_courthouse_9736.JPG">
+    </div>
+
+    <!-- Second column of text -->
+    <div class="column">
+      <h3>
+        <a href="https://en.wikipedia.org/wiki/Lincoln,_Nebraska" target=_blank>Lincoln, NE</a>
+      </h3>
+      <ul>
+        <li>Reason for travel: CU vs. Nebraska football game.</li>
+        <li>Distance traveled: ~1,000 miles (car)</li>
+        <li>Length of stay: 3 days</li>
+      </ul>
+      <img src="http://www.npdodge.com/blog/wp-content/uploads/2015/08/Huskers-Header.png">
+      <h3>
+        <a href="https://en.wikipedia.org/wiki/Brisbane" target=_blank>Brisbane, AU</a>
+      </h3>
+      <ul>
+        <li>Reason for travel: Visting friend.</li>
+        <li>Distance traveled: ~16,000 miles (plane)</li>
+        <li>Length of stay: TBD.</li>
+      </ul>
+      <img src="https://suitcasemag.com/wp-content/uploads/2017/01/brisbane-australia.jpg" >
+    </div>
+    <div class="clear"></div>
+
+    <!-- Bio information below city details -->
+    <div class="bio">
+      <p>See my projects on GitHub:
+        <a href="https://github.com/jeremy-deischer">Jeremy-Deischer</a>
+      </p>
+      <p>Follow me on Twitter:
+        <a href="https://twitter.com/JeremyDeischer">@JeremyDeischer</a>
+      </p>
+      </span>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"></script>
+    <script>
+      // map options
+      var options = {
+        center: [24.0077, 19.76716],
+        zoom: 2
+      }
+
+      // create Leaflet map
+      var map = L.map('map', options);
+
+      // request some slippy map tiles
+      var tiles = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: 'abcd',
+        minZoom: 1,
+        maxZoom: 16,
+        ext: 'png'
+      });
+
+      // add tiles to the map
+      map.addLayer(tiles);
+
+      // STORING DATA AS VARIABLES IN ARRAYS
+
+      // variables referencing data values for the city locations
+      var city1Name = "Rutherford",
+        city1Coords = [36.127567, -88.985899],
+        city1Pop = 1108,
+        city1Capital = false,
+        city1State = "Tennessee",
+        city1Date = "April";
+
+      var city2Name = "Lincoln",
+        city2Coords = [40.813616, -96.702596],
+        city2Pop = 280364,
+        city2Capital = true,
+        city2State = "Nebraska",
+        city2Date = "September";
+
+      var city3Name = "Phoenix",
+        city3Coords = [33.448377, -112.074037],
+        city3Pop = 1615000,
+        city3Capital = true,
+        city3State = "Arizona",
+        city3Date = "March";
+
+      var city4Name = "Brisbane",
+        city4Coords = [-27.4697, 153.02512],
+        city4Pop = 2408223,
+        city4Capital = true,
+        city4State = "Queensland",
+        city4Date = "November";
+
+      // arrays of data
+      var cities = [city1Name, city2Name, city3Name, city4Name],
+          coords = [city1Coords, city2Coords, city3Coords, city4Coords],
+          populations = [city1Pop, city2Pop, city3Pop, city4Pop],
+          capitals = [city1Capital, city2Capital, city3Capital, city4Capital],
+          states = [city1State, city2State, city3State, city4State]
+          dates = [city1Date, city2Date, city3Date, city4Date];
+
+      // Adding each marker to map
+
+      // Creating the string for the tooltip
+      // Attributing name, date, and city population to each tooltip
+      //Adds thumbnail to beginning of tooltip
+      //.toLocaleString formats population to display with commas
+      var city1Tooltip =
+        '<img src = "https://pbs.twimg.com/profile_images/378800000435575276/db97169b7b1fa44630a9d28c8d716ecc_400x400.png" alt="Rutherford" width=120px height=80px>' +
+        "<br><b>" + cities[0] + "</b>" +
+        "<br><b>Vist Date: </b>" + dates[0] +
+        "<br><b>2016 Population</b>: " + populations[0].toLocaleString();
+      var city2Tooltip =
+        '<img src = "https://upload.wikimedia.org/wikipedia/commons/8/82/Lincoln_ne_skyline.JPG" alt="Lincoln Skyline" width=120px height=80px>' +
+        "<br><b>" + cities[1] + "</b>" +
+        "<br><b>Vist Date: </b>" + dates[1] +
+        "<br><b>2016 Population</b>: " + populations[1].toLocaleString();
+      var city3Tooltip =
+        '<img src = "https://arizonareport.com/wp-content/uploads/2017/10/iStock-520506217-e1507132473455.jpg" alt="Phoenix Skyline" width=120px height=80px>' +
+        "<br><b>" + cities[2] + "</b>" +
+        "<br><b>Vist Date: </b>" + dates[2] +
+        "<br><b>2016 Population</b>: " + populations[2].toLocaleString();
+      var city4Tooltip =
+        '<img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl-2FTMylTzZZlaYM9XIrJZnjIxA_vjzTefbDFdittVece9nby7A" alt="Brisbane Skyline" width=120px height=80px>' +
+        "<br><b>" + cities[3] + "</b>" +
+        "<br><b>Vist Date: </b>" + dates[3] +
+        "<br><b>2016 Population</b>: " + populations[3].toLocaleString();
+
+      // Adds to tooltip string if city is the capital
+      if (capitals[0]) {
+        // concatenate a string to the existing string value
+        city1Tooltip += "<br>Capital of " + states[0];
+      }
+      if (capitals[1]) {
+        // concatenate a string to the existing string value
+        city2Tooltip += "<br>Capital of " + states[1];
+      }
+      if (capitals[2]) {
+        // concatenate a string to the existing string value
+        city3Tooltip += "<br>Capital of " + states[2];
+      }
+      if (capitals[3]) {
+        // concatenate a string to the existing string value
+        city4Tooltip += "<br>Capital of " + states[3];
+      }
+
+      // create the Leaflet marker for each city using the coordinates from array
+      L.marker(coords[0])
+        .addTo(map) // add it to the map
+        .bindTooltip(city1Tooltip); // bind the tooltip
+      L.marker(coords[1])
+        .addTo(map) // add it to the map
+        .bindTooltip(city2Tooltip); // bind the tooltip
+      L.marker(coords[2])
+        .addTo(map) // add it to the map
+        .bindTooltip(city3Tooltip); // bind the tooltip
+      L.marker(coords[3])
+        .addTo(map) // add it to the map
+        .bindTooltip(city4Tooltip); // bind the tooltip
+    </script>
+
+</body>
+
+</html>
